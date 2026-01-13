@@ -1,7 +1,5 @@
 package S02;
 
-import java.util.Random;
-
 /**
  * S02 - Selection sort algorithm.
  *
@@ -9,7 +7,7 @@ import java.util.Random;
  */
 public class MyArray {
 
-    int[] a;
+    private int[] a;
 
     /**
      * Gets random number from lower to upper

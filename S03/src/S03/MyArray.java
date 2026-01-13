@@ -7,7 +7,7 @@ package S03;
  */
 public class MyArray {
 
-    int[] a;
+    private int[] a;
 
     /**
      * Gets random number from lower to upper
