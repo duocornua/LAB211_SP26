@@ -1,6 +1,8 @@
 package S04;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * S04 - Binary Search algorithm.
@@ -10,7 +12,7 @@ import java.util.Arrays;
 public class BinarySearch {
 
     private int[] a;
-    private int searchValue;
+    private List<Integer> result;
 
     /**
      * Gets random number from lower to upper
@@ -27,11 +29,9 @@ public class BinarySearch {
      * The constructor
      *
      * @param n The number of elements
-     * @param searchValue The value that need to be searched
-     * @throws Exception if n is negative integer, throws exception
+     *
      */
-    public BinarySearch(int n, int searchValue) {
-        this.searchValue = searchValue;
+    public BinarySearch(int n) {
         a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = randomNumber(0, n);
@@ -44,57 +44,71 @@ public class BinarySearch {
     public void sort() {
         Arrays.sort(a);
     }
-
+    
     /**
-     * Searches for a given value in a sorted array using the binary search
-     * algorithm.
+     * Searches for all occurrences of a given value in the sorted array.
      *
-     * @param searchValue the value to be searched for
-     * @return the index of the searched value if found; -1 if the value does
-     * not exist in the array
+     * This method uses binary search to locate one occurrence of the value,
+     * then expands to the left and right to find all matching indices.
+     *
+     * @param searchValue the value to search for
      */
-    public int search(int searchValue) {
+    public void search(int searchValue) {
 
-        // Initialize the left boundary of the search range
+        // Initialize result list
+        result = new ArrayList<>();
+
         int left = 0;
-
-        // Initialize the right boundary of the search range
         int right = a.length - 1;
+        int foundIndex = -1;
 
-        // Continue searching while the search range is valid
+        // Binary search to find one occurrence
         while (left <= right) {
-
-            // Calculate the middle index to divide the array
             int middle = left + (right - left) / 2;
 
-            // Check if the middle element is the searched value
             if (a[middle] == searchValue) {
-                return middle;
+                foundIndex = middle;
+                break;
             }
 
-            // If the searched value is smaller, continue searching in the left half
             if (searchValue < a[middle]) {
                 right = middle - 1;
-            } // Otherwise, continue searching in the right half
-            else {
+            } else {
                 left = middle + 1;
             }
         }
 
-        // Return -1 if the searched value is not found
-        return -1;
+        // If not found, stop here
+        if (foundIndex == -1) {
+            return;
+        }
+
+        // Move left to find first occurrence
+        int i = foundIndex;
+        while (i >= 0 && a[i] == searchValue) {
+            i--;
+        }
+
+        // Move right and collect all indices
+        i++;
+        while (i < a.length && a[i] == searchValue) {
+            result.add(i);
+            i++;
+        }
     }
 
     /**
-     * Displays the result of the binary search.
+     * Prints the result of the binary search.
+     *
+     * @param searchValue the value that was searched for
      */
-    public void searchResult() {
-        int index = search(searchValue);
+    public void printSearchResult(int searchValue) {
 
-        if (index == -1) {
+        // If result list is empty, value was not found
+        if (result == null || result.isEmpty()) {
             System.out.println("Value not found in the array.");
         } else {
-            System.out.println("Found " + searchValue + " at index: " + index);
+            System.out.println("Found " + searchValue + " at index: " + result);
         }
     }
 

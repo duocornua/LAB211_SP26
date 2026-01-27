@@ -1,7 +1,6 @@
 package S05;
 
 import java.util.LinkedHashMap;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,6 +14,8 @@ public class Count {
      * Stores the input text provided by the user.
      */
     private String content;
+    private Map<String, Integer> wordCount;
+    private Map<String, Integer> charCount;
 
     /**
      * Constructs a TextCounter object with the given text.
@@ -26,59 +27,97 @@ public class Count {
     }
 
     /**
-     * Counts the number of occurrences of each word in the input text and
-     * displays the result.
+     * Counts the number of occurrences of each valid word in the content.
      *
-     * The text is split by one or more spaces. Each word is stored as a key in
-     * a map, and its frequency is stored as the corresponding value.
+     * A valid word contains only alphabetic characters.
      */
     public void countWords() {
+
+        // Initialize word count map
+        wordCount = new LinkedHashMap<>();
 
         // Split the content into words using whitespace
         String[] words = content.trim().split("\\s+");
 
-        // Map to store word frequencies
-        Map<String, Integer> wordCount = new LinkedHashMap<>();
-
-        // Count occurrences of each word
+        // Count only valid words (letters only)
         for (String word : words) {
-            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+            if (word.matches("[a-zA-Z]+")) {
+                wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
+            }
         }
-
-        // Display the word count result
-        System.out.println(wordCount);
     }
 
     /**
-     * Counts the number of occurrences of each letter in the input text and
-     * displays the result.
+     * Prints the word count result.
+     */
+    public void printWordCount() {
+
+        if (wordCount == null || wordCount.isEmpty()) {
+            System.out.println("No word found.");
+        } else {
+            System.out.println(wordCount);
+        }
+    }
+
+    /**
+     * Counts the number of occurrences of each character in the content.
      *
-     * Only alphabetic characters are counted. Spaces and non-letter characters
-     * are ignored.
-     *
-     * All letters are converted to lowercase before counting to ensure
-     * case-insensitive comparison.
+     * All letters are converted to lowercase. All whitespace characters are
+     * counted as a single space (" ").
      */
     public void countCharacters() {
 
-        // Map to store character frequencies
-        Map<Character, Integer> charCount = new HashMap<>();
+        // Initialize character count map
+        charCount = new LinkedHashMap<>();
 
-        // Convert the string into a character array
+        // Loop through each character in the content
         for (char c : content.toCharArray()) {
 
-            // Count letters
-            if (Character.isLetter(c)) {
-                c = Character.toLowerCase(c);
-                charCount.put(c, charCount.getOrDefault(c, 0) + 1);
-            } // Count whitespaces
-            else if (Character.isWhitespace(c)) {
-                charCount.put(c, charCount.getOrDefault(c, 0) + 1);
+            String key;
+
+            // Treat all whitespace characters as a single space
+            if (Character.isWhitespace(c)) {
+                key = " ";
+            } else {
+                key = String.valueOf(Character.toLowerCase(c));
             }
+
+            // Update character count
+            charCount.put(key, charCount.getOrDefault(key, 0) + 1);
+        }
+    }
+
+    /**
+     * Prints the character count result.
+     *
+     * Whitespace characters are displayed as ' ' for clarity.
+     */
+    public void printCharacterCount() {
+
+        if (charCount == null || charCount.isEmpty()) {
+            System.out.println("{}");
+            return;
         }
 
-        // Display the character count result
-        System.out.println(charCount);
+        System.out.print("{");
+        boolean first = true;
+
+        for (Map.Entry<String, Integer> entry : charCount.entrySet()) {
+
+            if (!first) {
+                System.out.print(", ");
+            }
+
+            if (entry.getKey().equals(" ")) {
+                System.out.print("' '=" + entry.getValue());
+            } else {
+                System.out.print(entry.getKey() + "=" + entry.getValue());
+            }
+
+            first = false;
+        }
+
+        System.out.println("}");
     }
 
 }

@@ -11,22 +11,26 @@ public class S05 {
      * The main method.
      *
      * This method prompts the user to enter a text string, validates the input
-     * to ensure it contains only letters and spaces, and then performs word and
-     * character counting.
+     * and then performs word and character counting.
      *
-     * @param args
+     * @param args the command line arguments
      */
     public static void main(String[] args) {
         String input = MyLib.getAlphabetString(
                 "Enter your content:\n",
-                "Input must contain letters only and not be empty."
+                "Input cannnot be empty."
         );
-
+        //Allocate heap memory for algorithm
         Count counter = new Count(input);
-        //Count words
+        
+        // Count and print words
         counter.countWords();
-        //Count characters
+        counter.printWordCount();
+
+        // Count and print characters
         counter.countCharacters();
+        counter.printCharacterCount();
+
     }
 
 }

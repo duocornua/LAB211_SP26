@@ -46,6 +46,10 @@ public class MyArray {
      * larger elements one position to the right.
      *
      */
+    //1 5 9 2 7
+    //1 5 9 9 7
+    //1 5 5 9 7
+    //1 2 5 9 7
     public void sort() {
         int n = a.length;
 

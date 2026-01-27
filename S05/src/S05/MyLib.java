@@ -22,21 +22,13 @@ public class MyLib {
         while (true) {
             try {
                 System.out.print(prompt);
-                String input = sc.nextLine().trim();
+                String input = sc.nextLine();
 
-                // Reject empty or whitespace-only input
-                if (input.isEmpty()) {
-                    throw new Exception();
+                if (!input.isEmpty()) {
+                    return input;
                 }
-
-                // Validate each character
-                for (char c : input.toCharArray()) {
-                    if (!Character.isLetter(c) && c != ' ') {
-                        throw new Exception();
-                    }
-                }
-
-                return input;
+                //Reject empty input
+                throw new Exception();
 
             } catch (Exception e) {
                 System.out.println(errorMessage);
